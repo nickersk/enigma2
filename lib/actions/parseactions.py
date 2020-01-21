@@ -1,9 +1,10 @@
 from __future__ import print_function
 # takes a header file, outputs action ids
 
-from builtins import filter
-from builtins import next
 import tokenize, sys
+if sys.version_info[0] > 3:
+	from builtins import filter
+	from builtins import next
 
 def filter(g):
 	while 1:
