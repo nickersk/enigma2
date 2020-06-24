@@ -1,7 +1,7 @@
 language: cpp
 
 sudo: required
-dist: bionic
+dist: focal
 
 matrix:
   include:
@@ -24,7 +24,7 @@ matrix:
             - libgstreamer1.0-dev
             - libgstreamer-plugins-base1.0-dev
             - libfreetype6-dev
-            - libsigc++-2.0-dev
+            - libsigc++-3.0-dev
             - libfribidi-dev
             - libssl-dev
             - libavahi-client-dev
@@ -54,7 +54,7 @@ matrix:
             - libgstreamer1.0-dev
             - libgstreamer-plugins-base1.0-dev
             - libfreetype6-dev
-            - libsigc++-2.0-dev
+            - libsigc++-3.0-dev
             - libfribidi-dev
             - libssl-dev
             - libavahi-client-dev
@@ -81,7 +81,7 @@ matrix:
             - libgstreamer1.0-dev
             - libgstreamer-plugins-base1.0-dev
             - libfreetype6-dev
-            - libsigc++-2.0-dev
+            - libsigc++-3.0-dev
             - libfribidi-dev
             - libssl-dev
             - libavahi-client-dev
@@ -111,7 +111,7 @@ matrix:
             - libgstreamer1.0-dev
             - libgstreamer-plugins-base1.0-dev
             - libfreetype6-dev
-            - libsigc++-2.0-dev
+            - libsigc++-3.0-dev
             - libfribidi-dev
             - libssl-dev
             - libavahi-client-dev
@@ -165,4 +165,3 @@ script:
 - make
 - python -m compileall .
 - echo done!
-
