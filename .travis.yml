@@ -1,15 +1,15 @@
 language: cpp
 
-sudo: required
+os: linux
 dist: focal
 
-matrix:
+jobs:
   include:
     - os: linux
       addons:
         apt:
           sources:
-            - ubuntu-toolchain-r-test
+            - sourceline: "ppa:ubuntu-toolchain-r/test"
           packages:
             - g++-8
             - linux-libc-dev
@@ -17,6 +17,8 @@ matrix:
             - build-essential
             - automake
             - libtool
+            - meson
+            - ninja-build
             - python3.8-dev
             - zlib1g-dev
             - gettext
@@ -24,7 +26,6 @@ matrix:
             - libgstreamer1.0-dev
             - libgstreamer-plugins-base1.0-dev
             - libfreetype6-dev
-            - libsigc++-3.0-dev
             - libfribidi-dev
             - libssl-dev
             - libavahi-client-dev
@@ -32,48 +33,21 @@ matrix:
             - libgif-dev
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8 && PYTHON=3.8"
-      before_install:
-        - pyenv global 3.8
-        - pip3 install --upgrade pip tox six
+
     - os: linux
       addons:
         apt:
           sources:
-            - ubuntu-toolchain-r-test
+            - sourceline: "ppa:ubuntu-toolchain-r/test"
           packages:
-            - g++-8
+            - g++-9
             - linux-libc-dev
             - git
             - build-essential
             - automake
             - libtool
-            - python-dev
-            - zlib1g-dev
-            - gettext
-            - swig
-            - libgstreamer1.0-dev
-            - libgstreamer-plugins-base1.0-dev
-            - libfreetype6-dev
-            - libsigc++-3.0-dev
-            - libfribidi-dev
-            - libssl-dev
-            - libavahi-client-dev
-            - libjpeg-turbo8-dev
-            - libgif-dev
-      env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-10
-            - linux-libc-dev
-            - git
-            - build-essential
-            - automake
-            - libtool
+            - meson
+            - ninja-build
             - python3.8-dev
             - zlib1g-dev
             - gettext
@@ -81,22 +55,19 @@ matrix:
             - libgstreamer1.0-dev
             - libgstreamer-plugins-base1.0-dev
             - libfreetype6-dev
-            - libsigc++-3.0-dev
             - libfribidi-dev
             - libssl-dev
             - libavahi-client-dev
             - libjpeg-turbo8-dev
             - libgif-dev
       env:
-        - MATRIX_EVAL="CC=gcc-10 && CXX=g++-10 && PYTHON=3.8"
-      before_install:
-        - pyenv global 3.8
-        - pip3 install --upgrade pip tox six
+        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9 && PYTHON=3.8"
+
     - os: linux
       addons:
         apt:
           sources:
-            - ubuntu-toolchain-r-test
+            - sourceline: "ppa:ubuntu-toolchain-r/test"
           packages:
             - g++-10
             - linux-libc-dev
@@ -104,26 +75,28 @@ matrix:
             - build-essential
             - automake
             - libtool
-            - python-dev
+            - meson
+            - ninja-build
+            - python3.8-dev
             - zlib1g-dev
             - gettext
             - swig
             - libgstreamer1.0-dev
             - libgstreamer-plugins-base1.0-dev
             - libfreetype6-dev
-            - libsigc++-3.0-dev
             - libfribidi-dev
             - libssl-dev
             - libavahi-client-dev
             - libjpeg-turbo8-dev
             - libgif-dev
       env:
-        - MATRIX_EVAL="CC=gcc-10 && CXX=g++-10"
+        - MATRIX_EVAL="CC=gcc-10 && CXX=g++-10 && PYTHON=3.8"
+
 git:
   depth: 10
 
 before_install:
-  - pip install --upgrade pip tox six
+  - pip3 install --upgrade pip tox six
   - eval "${MATRIX_EVAL}"
   - curl -L https://people.freedesktop.org/~slomo/gstreamer.tar.gz | tar xz
   - sed -i "s;prefix=/root/gstreamer;prefix=$PWD/gstreamer;g" $PWD/gstreamer/lib/x86_64-linux-gnu/pkgconfig/*.pc
@@ -134,6 +107,17 @@ before_install:
   - export LD_LIBRARY_PATH=$PWD/gstreamer/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 
 script:
+- echo installing libsigc++3
+- pushd .
+- cd /tmp
+- wget https://github.com/libsigcplusplus/libsigcplusplus/archive/3.0.3.tar.gz
+- tar zxf 3.0.3.tar.gz
+- cd libsigcplusplus-3.0.3
+- meson builddir .
+- cd builddir
+- ninja
+- sudo ninja install
+- popd
 - echo installing libdvbsi++
 - pushd .
 - cd /tmp
