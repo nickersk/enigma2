@@ -20,9 +20,7 @@ static std::string getSize(const char* file)
 	struct stat64 s;
 	if (stat64(file, &s) < 0)
 		return "";
-	char tmp[20];
-	snprintf(tmp, 20, "%ld kB", (long)s.st_size / 1024);
-	return tmp;
+	return std::to_string((long)(s.st_size / 1024)) + " kB";
 }
 
 static int convert_8Bit_to_24Bit(Cfilepara *filepara, unsigned char *dest)
@@ -817,8 +815,8 @@ void ePicLoad::decodeThumb()
 		{
 			int c;
 			int count = 1024*100;
-			unsigned long crc32 = 0;
-			char crcstr[9];*crcstr=0;
+			uint32_t crc32 = 0;
+			char crcstr[17];*crcstr=0;
 
 			while ((c=getc(f))!=EOF)
 			{
@@ -828,7 +826,7 @@ void ePicLoad::decodeThumb()
 
 			fclose(f);
 			crc32 = ~crc32;
-			sprintf(crcstr, "%08lX", crc32);
+			sprintf(crcstr, "%08X", crc32);
 
 			cachedir = m_filepara->file;
 			size_t pos = cachedir.find_last_of("/");
