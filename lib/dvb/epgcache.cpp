@@ -4279,11 +4279,11 @@ PyObject *eEPGCache::search(ePyObject arg)
 			 								int z=0;
 											for (lloop=0x0;lloop<(dbglen+EIT_EXTENDED_EVENT_DESCRIPTOR_SIZE+2);lloop++)
 											{
-												if ((lloop>0) && (lloop%16==0)) { eDebug(buff); z=0; }
+												if ((lloop>0) && (lloop%16==0)) { eDebug("%s", buff); z=0; }
 												snprintf(&buff[z*3], sizeof(buff), "%02X ", data[lloop]);
 												z++;
 											}
-											if (z>1) { eDebug(buff);}
+											if (z>1) { eDebug("%s", buff);}
 											#endif
 											break;
 										}
@@ -4306,11 +4306,11 @@ PyObject *eEPGCache::search(ePyObject arg)
 			 								int z=0;
 											for (lloop=0x0;lloop<(dbglen+EIT_EXTENDED_EVENT_DESCRIPTOR_SIZE+2);lloop++)
 											{
-												if ((lloop>0) && (lloop%16==0)) { eDebug(buff); z=0; }
+												if ((lloop>0) && (lloop%16==0)) { eDebug("%s", buff); z=0; }
 												snprintf(&buff[z*3], sizeof(buff), "%02X ", data[lloop]);
 												z++;
 											}
-											if (z>1) { eDebug(buff);}
+											if (z>1) { eDebug("%s", buff);}
 											#endif
 											break;
 										}
