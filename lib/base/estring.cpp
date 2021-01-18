@@ -376,7 +376,7 @@ int UnicodeToUTF8(long c, char *out, int max)
 		*out     = 0x80 | (c & 0x3f);
 		return 4;
 	}
-	eDebug("[UnicodeToUTF8] invalid unicode character or not enough space to convert: code=0x%08x, max=%d", c, max);
+	eDebug("[UnicodeToUTF8] invalid unicode character or not enough space to convert: code=0x%08lx, max=%d", c, max);
 	return 0; // not enough space to convert or not a valid unicode
 }
 
