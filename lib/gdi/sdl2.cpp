@@ -1,11 +1,9 @@
-#include <lib/gdi/sdl.h>
+#include <lib/gdi/sdl2.h>
 #include <lib/actions/action.h>
 #include <lib/base/init.h>
 #include <lib/base/init_num.h>
 #include <lib/driver/input_fake.h>
-#include <lib/driver/rcsdl.h>
-
-#include <SDL.h>
+#include <lib/driver/rcsdl2.h>
 
 gSDLDC::gSDLDC() : m_pump(eApp, 1)
 {

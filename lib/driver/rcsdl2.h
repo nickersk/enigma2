@@ -3,7 +3,7 @@
 
 #include <lib/driver/rc.h>
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 class eSDLInputDevice : public eRCDevice
 {

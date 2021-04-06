@@ -43,10 +43,10 @@ gdiinclude_HEADERS = \
 	gdi/picload.h \
 	gdi/region.h
 
-if HAVE_LIBSDL
+if HAVE_LIBSDL2
 gdi_libenigma_gdi_a_SOURCES += \
-	gdi/sdl.cpp \
-	gdi/sdl.h
+	gdi/sdl2.cpp \
+	gdi/sdl2.h
 else
 gdi_libenigma_gdi_a_SOURCES += \
 	gdi/gfbdc.cpp \

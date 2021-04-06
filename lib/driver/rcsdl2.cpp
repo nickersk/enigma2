@@ -1,5 +1,5 @@
 #include <lib/base/etrace.h>
-#include <lib/driver/rcsdl.h>
+#include <lib/driver/rcsdl2.h>
 //#include <lib/actions/action.h>
 #include <lib/base/init.h>
 #include <lib/base/init_num.h>

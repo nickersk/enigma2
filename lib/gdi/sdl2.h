@@ -4,7 +4,7 @@
 #include <lib/base/thread.h>
 #include <lib/gdi/gmaindc.h>
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 class gSDLDC: public gMainDC, public eThread, public sigc::trackable
 {

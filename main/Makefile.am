@@ -5,7 +5,7 @@ AM_CPPFLAGS = \
 	-include $(top_builddir)/enigma2_config.h
 
 AM_CXXFLAGS = \
-	$(LIBSDL_CFLAGS)
+	$(LIBSDL2_CFLAGS)
 
 bin_PROGRAMS = enigma2
 
@@ -38,7 +38,7 @@ enigma2_LDADD = \
 	@LIBGIF_LIBS@ \
 	@LIBJPEG_LIBS@ \
 	@LIBVUGLES2_LIBS@ \
-	@LIBSDL_LIBS@ \
+	@LIBSDL2_LIBS@ \
 	@LIBXINE_LIBS@ \
 	@PTHREAD_LIBS@ \
 	@PYTHON_LIBS@ \

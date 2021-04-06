@@ -808,13 +808,13 @@ if test "$BOXTYPE" == "spark" -o "$BOXTYPE" == "spark7162"; then
 	AC_DEFINE(FORCE_ADVANCED_REMOTE, 1,[define to fixup the input device identification when the remote control is actually an 'advanced' remote (with play/forward/rewind keys)])
 fi
 
-AC_ARG_WITH(libsdl,
-	AS_HELP_STRING([--with-libsdl],[use libsdl, yes or no]),
-	[with_libsdl=$withval],[with_libsdl=no])
-if test "$with_libsdl" = "yes"; then
-	PKG_CHECK_MODULES(LIBSDL, sdl)
+AC_ARG_WITH(libsdl2,
+	AS_HELP_STRING([--with-libsdl2],[use libsdl2, yes or no]),
+	[with_libsdl2=$withval],[with_libsdl2=no])
+if test "$with_libsdl2" = "yes"; then
+	PKG_CHECK_MODULES(LIBSDL2, sdl2)
 fi
-AM_CONDITIONAL(HAVE_LIBSDL, test "$with_libsdl" = "yes")
+AM_CONDITIONAL(HAVE_LIBSDL2, test "$with_libsdl2" = "yes")
 
 AC_ARG_WITH(libxine,
 	AS_HELP_STRING([--with-libxine],[use libxine, yes or no]),
