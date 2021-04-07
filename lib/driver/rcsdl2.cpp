@@ -18,8 +18,6 @@ eSDLInputDevice::~eSDLInputDevice()
 
 void eSDLInputDevice::handleCode(long arg)
 {
-	D_ENTER();
-
 	const SDL_KeyboardEvent *event = (const SDL_KeyboardEvent *)arg;
 	const SDL_Keysym *key = &event->keysym;
 	int km = input->getKeyboardMode();
@@ -34,13 +32,13 @@ void eSDLInputDevice::handleCode(long arg)
 
 	if (km == eRCInput::kmNone) {
 		code = translateKey(key->sym);
-		D_PRINT("translated code: %d", code);
+		eDebug("translated code: %d", code);
 	} else {
 		code = m_unicode;
-		D_PRINT("native virtual code: %d / sym: %d", code, key->sym);
+		eDebug("native virtual code: %d / sym: %d", code, key->sym);
 		if ((code == 0) && (key->sym < 128)) {
 			code = key->sym;
-			D_PRINT("ASCII code: %u", code);
+			eDebug("ASCII code: %u", code);
 		}
 
 		if ((km == eRCInput::kmAscii) &&
@@ -52,14 +50,14 @@ void eSDLInputDevice::handleCode(long arg)
 		} else {
 			// ASCII keys should only generate key press events
 			if (flags == eRCKey::flagBreak)
-				D_RETURN();
+				return;
 
 			if (km == eRCInput::kmAscii) {
 				// skip ESC c or ESC '[' c
 				if (m_escape) {
 					if (code != '[')
 						m_escape = false;
-					D_RETURN();
+					return;
 				}
 				if (code == SDLK_ESCAPE)
 					m_escape = true;
@@ -68,9 +66,8 @@ void eSDLInputDevice::handleCode(long arg)
 		}
 	}
 
-	D_PRINT("code=%d (%#x) flags=%d (%#x)", code, code, flags, flags);
+	eDebug("code=%d (%#x) flags=%d (%#x)", code, code, flags, flags);
 	input->keyPressed(eRCKey(this, code, flags));
-	D_RETURN();
 }
 
 const char *eSDLInputDevice::getDescription() const
