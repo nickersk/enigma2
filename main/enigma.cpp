@@ -38,8 +38,6 @@
 #include "bsod.h"
 #include "version_info.h"
 
-#include <gst/gst.h>
-
 #ifdef OBJECT_DEBUG
 int object_total_remaining;
 
@@ -269,8 +267,6 @@ int main(int argc, char **argv)
 	atexit(object_dump);
 #endif
 
-	gst_init(&argc, &argv);
-
 	// set pythonpath if unset
 	setenv("PYTHONPATH", eEnv::resolve("${libdir}/enigma2/python").c_str(), 0);
 	printf("PYTHONPATH: %s\n", getenv("PYTHONPATH"));
@@ -432,7 +428,7 @@ const char *getEnigmaVersionString()
 
 const char *getGStreamerVersionString()
 {
-	return gst_version_string();
+	return "unavailable";
 }
 
 #include <malloc.h>
