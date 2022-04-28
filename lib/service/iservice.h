@@ -62,9 +62,11 @@ public:
 #ifndef SWIG
 	int data[8];
 	std::string path;
+	std::string alterpath;
 #endif
 	std::string getPath() const { return path; }
 	void setPath( const std::string &n ) { path=n; }
+	void setAlterPath( const std::string &n ) { alterpath=n; }
 
 	unsigned int getUnsignedData(unsigned int num) const
 	{

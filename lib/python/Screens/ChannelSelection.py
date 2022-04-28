@@ -60,6 +60,11 @@ from time import localtime, time, strftime
 import six
 
 try:
+	from streamlink import Streamlink
+except ImportError:
+	Streamlink = None
+
+try:
 	from Plugins.SystemPlugins.PiPServiceRelation.plugin import getRelationDict
 	plugin_PiPServiceRelation_installed = True
 except:
@@ -2197,6 +2202,10 @@ class ChannelSelection(ChannelSelectionBase, ChannelSelectionEdit, ChannelSelect
 		self.lastChannelRootTimer.callback.append(self.__onCreate)
 		self.lastChannelRootTimer.start(100, True)
 		self.pipzaptimer = eTimer()
+		if Streamlink is not None:
+			self.streamlink = Streamlink()
+		else:
+			self.streamlink = None
 
 	def asciiOn(self):
 		rcinput = eRCInput.getInstance()
@@ -2362,6 +2371,15 @@ class ChannelSelection(ChannelSelectionBase, ChannelSelectionEdit, ChannelSelect
 	def zap(self, enable_pipzap=False, preview_zap=False, checkParentalControl=True, ref=None):
 		self.curRoot = self.startRoot
 		nref = ref or self.getCurrentSelection()
+		if self.streamlink is not None and nref and "http" in nref.toString():
+			# TODO get url from nref.path
+			# plugin, resolved_url = streamlink.resolve_url(url)
+			# plugin = plugin(resolved_url)
+			# streams = plugin.streams()
+			# TODO get the real link based on quality
+			# nref.setAlterPath(url)
+			pass
+
 		ref = self.session.nav.getCurrentlyPlayingServiceOrGroup()
 		if enable_pipzap and self.dopipzap:
 			ref = self.session.pip.getCurrentService()
