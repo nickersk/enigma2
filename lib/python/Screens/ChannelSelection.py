@@ -60,9 +60,15 @@ from time import localtime, time, strftime
 import six
 
 try:
-	from streamlink import Streamlink
+	import streamlink
+	Streamlink = True
 except ImportError:
-	Streamlink = None
+	Streamlink = False
+
+try:
+	from youtube_dl import YoutubeDL
+except ImportError:
+    YoutubeDL = None
 
 try:
 	from Plugins.SystemPlugins.PiPServiceRelation.plugin import getRelationDict
@@ -2202,10 +2208,6 @@ class ChannelSelection(ChannelSelectionBase, ChannelSelectionEdit, ChannelSelect
 		self.lastChannelRootTimer.callback.append(self.__onCreate)
 		self.lastChannelRootTimer.start(100, True)
 		self.pipzaptimer = eTimer()
-		if Streamlink is not None:
-			self.streamlink = Streamlink()
-		else:
-			self.streamlink = None
 
 	def asciiOn(self):
 		rcinput = eRCInput.getInstance()
@@ -2371,14 +2373,31 @@ class ChannelSelection(ChannelSelectionBase, ChannelSelectionEdit, ChannelSelect
 	def zap(self, enable_pipzap=False, preview_zap=False, checkParentalControl=True, ref=None):
 		self.curRoot = self.startRoot
 		nref = ref or self.getCurrentSelection()
-		if self.streamlink is not None and nref and "http" in nref.toString():
-			# TODO get url from nref.path
-			# plugin, resolved_url = streamlink.resolve_url(url)
-			# plugin = plugin(resolved_url)
-			# streams = plugin.streams()
-			# TODO get the real link based on quality
-			# nref.setAlterPath(url)
-			pass
+		if nref and "http" in nref.toString():
+			url = nref.toString()
+			url = url.split(":")
+			if len(url) > 9:
+				url = url[10]
+				if Streamlink and url.startswith("streamlink%3a//"):
+					url = url.replace("streamlink%3a//", "")
+					url = url.replace("%3a", ":")
+					try:
+						streams = streamlink.streams(url)
+						if streams:
+							url = streams["best"].to_url()
+							nref.setAlterPath(url)
+							print("[ChannelSelection] zap / streamlink result url %s" % url)
+						else:
+							print("[ChannelSelection] zap / streamlink no streams")
+					except Exception as e:
+						print("[ChannelSelection] zap / streamlink failed %s" % str(e))
+						pass
+
+				if YoutubeDL is not None and url.startswith("YT-DL%3a//"):
+					url = url.replace("YT-DL%3a//", "")
+					url = url.replace("%3a", ":")
+					# TODO YTDL
+					# nref.setAlterPath(url)
 
 		ref = self.session.nav.getCurrentlyPlayingServiceOrGroup()
 		if enable_pipzap and self.dopipzap:
